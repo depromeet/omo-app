@@ -1,12 +1,10 @@
-import * as React from "react";
-
+import { useCallback, useRef, useState } from "react";
 import { BackHandler } from "react-native";
-import { RootTabScreenProps } from "../types";
 import WebView from "react-native-webview";
-import { useCallback } from "react";
+
 import { useFocusEffect } from "@react-navigation/native";
-import { useRef } from "react";
-import { useState } from "react";
+
+import { RootTabScreenProps } from "../types";
 
 const uri = "https://www.inflearn.com/";
 
