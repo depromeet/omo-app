@@ -1,16 +1,14 @@
-import { useCallback, useRef, useState } from "react";
-import { BackHandler } from "react-native";
-import WebView from "react-native-webview";
+import { useCallback, useRef, useState } from 'react';
+import { BackHandler } from 'react-native';
+import WebView from 'react-native-webview';
 
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect } from '@react-navigation/native';
 
-import { RootTabScreenProps } from "../types";
+import { RootTabScreenProps } from '../types';
 
-const uri = "https://www.inflearn.com/";
+const uri = 'https://www.inflearn.com/';
 
-export default function TabOneScreen({
-  navigation,
-}: RootTabScreenProps<"TabOne">) {
+export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
   const webview = useRef<WebView>(null);
   const [canGoBack, setCanGoBack] = useState(false);
 
@@ -28,16 +26,16 @@ export default function TabOneScreen({
 
   useFocusEffect(
     useCallback(() => {
-      BackHandler.addEventListener("hardwareBackPress", onAndroidBackPress);
+      BackHandler.addEventListener('hardwareBackPress', onAndroidBackPress);
       return () => {
-        BackHandler.addEventListener("hardwareBackPress", onAndroidBackPress);
+        BackHandler.addEventListener('hardwareBackPress', onAndroidBackPress);
       };
-    }, [canGoBack])
+    }, [canGoBack]),
   );
 
   return (
     <WebView
-      originWhitelist={["*"]}
+      originWhitelist={['*']}
       source={{ uri }}
       allowsBackForwardNavigationGestures
       ref={webview}
