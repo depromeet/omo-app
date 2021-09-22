@@ -1,33 +1,39 @@
-import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import * as React from "react";
 
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
-import { RootTabScreenProps } from '../types';
+import { BackHandler, Platform } from "react-native";
 
-export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
+import { RootTabScreenProps } from "../types";
+import WebView from "react-native-webview";
+import { useEffect } from "react";
+import { useRef } from "react";
+
+const uri = "https://www.inflearn.com/";
+
+export default function TabOneScreen({
+  navigation,
+}: RootTabScreenProps<"TabOne">) {
+  const webview = useRef<WebView>(null);
+  const onAndroidBackPress = () => {
+    if (webview.current) {
+      webview.current.goBack();
+      return true;
+    }
+    return false;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", onAndroidBackPress);
+    return () => {
+      BackHandler.addEventListener("hardwareBackPress", onAndroidBackPress);
+    };
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabOneScreen.tsx" />
-    </View>
+    <WebView
+      originWhitelist={["*"]}
+      source={{ uri }}
+      allowsBackForwardNavigationGestures
+      ref={webview}
+    />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
