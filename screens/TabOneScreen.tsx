@@ -4,7 +4,7 @@ import WebView from 'react-native-webview';
 
 import { useFocusEffect } from '@react-navigation/native';
 
-const uri = 'https://www.inflearn.com/';
+const uri = 'https://omo-deployment-fnhy4qclx-kangyeollee.vercel.app/search';
 
 export default function TabOneScreen(): JSX.Element {
   const webview = useRef<WebView>(null);
@@ -13,8 +13,8 @@ export default function TabOneScreen(): JSX.Element {
   useFocusEffect(
     useCallback(() => {
       const onAndroidBackPress = () => {
+        console.log('webview: ', webview.current);
         if (webview.current && canGoBack) {
-          console.log(`cangoBack : ${canGoBack}`);
           webview.current.goBack();
           return true;
         }
@@ -37,7 +37,7 @@ export default function TabOneScreen(): JSX.Element {
       allowsBackForwardNavigationGestures
       ref={webview}
       onNavigationStateChange={(navState) => {
-        console.log(navState.canGoBack);
+        console.log('clicked :', navState);
         setCanGoBack(navState.canGoBack);
       }}
     />
