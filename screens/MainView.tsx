@@ -31,6 +31,7 @@ export default function TabOneScreen(): JSX.Element {
       source={{ uri }}
       pullToRefreshEnabled
       allowsBackForwardNavigationGestures
+      allowFileAccess
       ref={webview}
       onLoadStart={() => webview.current?.injectJavaScript(INJECTED_CODE)}
       onNavigationStateChange={(navState) => setCanGoBack(navState.canGoBack)}
