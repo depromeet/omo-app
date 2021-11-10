@@ -10,7 +10,6 @@ export default function TabOneScreen(): JSX.Element {
 
   useEffect(() => {
     const onAndroidBackPress = () => {
-      console.log('webview: ', webview.current);
       if (webview.current && canGoBack) {
         webview.current.goBack();
         return true;
@@ -32,11 +31,31 @@ export default function TabOneScreen(): JSX.Element {
       source={{ uri }}
       pullToRefreshEnabled
       allowsBackForwardNavigationGestures
+      allowFileAccess
       ref={webview}
-      onNavigationStateChange={(navState) => {
-        console.log('clicked :', navState);
-        setCanGoBack(navState.canGoBack);
-      }}
+      onLoadStart={() => webview.current?.injectJavaScript(INJECTED_CODE)}
+      onNavigationStateChange={(navState) => setCanGoBack(navState.canGoBack)}
+      onMessage={({ nativeEvent }) => setCanGoBack(nativeEvent.canGoBack)}
     />
   );
 }
+
+const INJECTED_CODE = `
+(function() {
+  function wrap(fn) {
+    return function wrapper() {
+      var res = fn.apply(this, arguments);
+      window.ReactNativeWebView.postMessage('navigationStateChange');
+      return res;
+    }
+  }
+
+  history.pushState = wrap(history.pushState);
+  history.replaceState = wrap(history.replaceState);
+  window.addEventListener('popstate', function() {
+    window.ReactNativeWebView.postMessage('navigationStateChange');
+  });
+})();
+
+true;
+`;
