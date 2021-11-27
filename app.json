@@ -1,12 +1,13 @@
 {
   "expo": {
-    "name": "omo-app",
-    "slug": "omo-app",
+    "name": "omo",
+    "slug": "omo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
+    "owner": "jonghopark",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
